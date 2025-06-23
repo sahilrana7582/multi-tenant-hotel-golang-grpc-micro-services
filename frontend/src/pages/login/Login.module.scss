@@ -30,7 +30,7 @@
 
 .form {
     width: 100%;
-    max-width: 500px;
+    max-width: 550px;
     padding: $padding-lg;
     font-family: $font-family;
     display: flex;
@@ -74,6 +74,32 @@
             border-color: $primary-color;
             background-color: rgba(179, 161, 215, 0.18);
 
+        }
+    }
+
+
+    .passwordWrapper{
+        position: relative;
+        width: 100%;
+
+        input {
+            width: 100%;
+            padding-right: 40px; 
+        }
+
+        span {
+            position: absolute;
+            right: 12px;
+            top: 50%;   
+            transform: translateY(-40%);
+            cursor: pointer;
+            color: $muted-text-color;
+            font-size: 1.5rem;
+            transition: color 0.2s ease;
+
+            &:hover {
+                color: $primary-color;
+            }
         }
     }
 
@@ -155,4 +181,53 @@
       right: 0;
     }
   }
+
+
+  .socialButtons {
+    display: flex;
+    gap: $spacing-sm;
+  
+    button {
+      flex: 1;
+      padding: $spacing-md;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: $spacing-xs;
+  
+      background-color: rgba(255, 255, 255, 0.03);
+      border: 1px solid $muted-text-color;
+      border-radius: 8px;
+  
+      color: $text-color;
+      font-weight: 500;
+      font-size: 0.95rem;
+  
+      cursor: pointer;
+      transition: all 0.3s ease;
+  
+      svg {
+        font-size: 1.2rem;
+      }
+  
+      &:hover {
+        border-color: $primary-color;
+        box-shadow: 0 0 8px $primary-color;
+        background-color: rgba(168, 138, 221, 0.1);
+      }
+    }
+  
+    .googleBtn {
+      svg {
+        color: #b995e7;
+      }
+    }
+  
+    .githubBtn {
+      svg {
+        color: #b995e7; 
+      }
+    }
+  }
+  
 }
