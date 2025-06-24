@@ -17,6 +17,9 @@ const appRoutes = [
       { path: '', element: <h1>LALA DASH</h1> },
       { path: 'rooms', element: <h1>Rooms</h1> },
       { path: 'housekeeping', element: <h1>HK</h1> },
+      { path: 'messages', element: <h1>messages</h1> },
+      { path: 'kitchen', element: <h1>kitchen</h1> },
+      { path: 'frontdesk', element: <h1>frontdesk</h1> },
     ],
   },
 ];

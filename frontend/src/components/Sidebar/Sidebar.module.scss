@@ -1,18 +1,129 @@
-// Sidebar.module.scss
+@import '../../styles/variables.scss';
 
-// ---------- Color Variables (tweak to your theme) ----------
-$sidebar-bg: #1a142d;            // deep purple-black
-$sidebar-text: #e9e6f9;          // soft white-purple
-$sidebar-hover-bg: rgba(168, 138, 221, 0.1); // subtle hover
-$sidebar-active-bg: rgba(168, 138, 221, 0.2); // active link background
-$primary-accent: #a88add;        // primary accent color
+$sidebar-bg: #ffffff;            
+$sidebar-text: #e9e6f9;          
+$sidebar-hover-bg: rgba(168, 138, 221, 0.1); 
+$sidebar-active-bg: rgba(168, 138, 221, 0.2); 
+$primary-accent: #a88add;        
 $toggle-hover-bg: rgba(168, 138, 221, 0.15);
 
-// Widths
 $sidebar-width-expanded: 240px;
 $sidebar-width-collapsed: 60px;
 
 // ---------- Styles ----------
+
+// .sidebar {
+//   display: flex;
+//   flex-direction: column;
+//   height: 100vh;
+//   width: $sidebar-width-expanded;
+//   background-color: $sidebar-bg;
+//   color: $sidebar-text;
+//   transition: width 0.3s ease;
+//   border-right: 1px solid rgba(255, 255, 255, 0.1);
+//   box-shadow: 2px 0 8px rgba(0, 0, 0, 0.2);
+
+//   &.collapsed {
+//     width: $sidebar-width-collapsed;
+//   }
+// }
+
+// // Logo / branding section
+// .logoSection {
+//   display: flex;
+//   align-items: center;
+//   padding: 16px;
+//   // optional bottom border
+//   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+//   .logoIcon {
+//     font-size: 1.5rem;
+//     // if you have an SVG/icon, style its color:
+//     // svg { color: $primary-accent; }
+//   }
+//   .logoText {
+//     margin-left: 12px;
+//     font-size: 1.25rem;
+//     font-weight: 600;
+//     color: $sidebar-text;
+//     white-space: nowrap;
+//   }
+// }
+
+// // Navigation area
+// .nav {
+//   display: flex;
+//   flex-direction: column;
+//   margin-top: 24px;
+//   // no padding, links handle their own padding
+// }
+
+// // Each link
+// .link {
+//   display: flex;
+//   align-items: center;
+//   gap: 12px;
+//   padding: 12px 16px;
+//   color: $sidebar-text;
+//   text-decoration: none;
+//   border-radius: 8px;
+//   transition: background-color 0.2s ease, color 0.2s ease;
+
+//   &:hover {
+//     background-color: $sidebar-hover-bg;
+//     color: $primary-accent;
+//   }
+
+//   &.active {
+//     background-color: $sidebar-active-bg;
+//     color: $primary-accent;
+//     position: relative;
+
+//     // left accent border:
+//     &::before {
+//       content: '';
+//       position: absolute;
+//       left: 0;
+//       top: 8px;
+//       bottom: 8px;
+//       width: 4px;
+//       background-color: $primary-accent;
+//       border-radius: 2px;
+//     }
+//   }
+// }
+
+// // Icon inside link
+// .linkIcon {
+//   font-size: 1.2rem;
+//   flex-shrink: 0;
+//   color: inherit; // inherits text color; will change on hover/active
+// }
+
+// // Text inside link
+// .linkText {
+//   font-size: 1rem;
+//   white-space: nowrap;
+//   flex-grow: 1;
+// }
+
+// // When collapsed, adjust link padding and hide text
+// .collapsedLink {
+//   justify-content: center;
+//   padding: 12px 0;
+
+//   .linkIcon {
+//     margin: 0 auto;
+//   }
+// }
+
+// // Spacer pushes toggle to bottom
+// .spacer {
+//   flex-grow: 1;
+// }
+
+
+
 
 .sidebar {
   display: flex;
@@ -20,96 +131,91 @@ $sidebar-width-collapsed: 60px;
   height: 100vh;
   width: $sidebar-width-expanded;
   background-color: $sidebar-bg;
-  color: $sidebar-text;
+  color: $text-color-black;
   transition: width 0.3s ease;
-  border-right: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.2);
+  border-right: 1px solid rgba(214, 111, 202, 0.1);
+  box-shadow: 2px 0 8px rgba(214, 111, 202, 0.2);
+
 
   &.collapsed {
     width: $sidebar-width-collapsed;
   }
 }
 
-// Logo / branding section
+
 .logoSection {
   display: flex;
   align-items: center;
-  padding: 16px;
-  // optional bottom border
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: $spacing-md;
 
   .logoIcon {
     font-size: 1.5rem;
-    // if you have an SVG/icon, style its color:
-    // svg { color: $primary-accent; }
+    color: $text-color-black;
   }
+
+
   .logoText {
-    margin-left: 12px;
-    font-size: 1.25rem;
+    margin-left: $spacing-md;
+    font-size: 1.5rem;
     font-weight: 600;
-    color: $sidebar-text;
+    background: linear-gradient(to right, #000000, #7266c6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
     white-space: nowrap;
   }
+
 }
 
-// Navigation area
+
 .nav {
   display: flex;
   flex-direction: column;
-  margin-top: 24px;
-  // no padding, links handle their own padding
+  margin-top: $margin-lg;
+  padding: 0 10px;
 }
 
-// Each link
 .link {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: $spacing-md;
+  margin: 2px 0;
   padding: 12px 16px;
-  color: $sidebar-text;
-  text-decoration: none;
   border-radius: 8px;
+  color: rgba($color: #333333, $alpha: 0.7);
+  border: 2px solid transparent;
+  text-decoration: none;
   transition: background-color 0.2s ease, color 0.2s ease;
 
   &:hover {
-    background-color: $sidebar-hover-bg;
-    color: $primary-accent;
+    color: $text-color-black;
+    transition: all 0.2s ease-in-out;
   }
 
   &.active {
+    color: $text-color-black;
     background-color: $sidebar-active-bg;
-    color: $primary-accent;
-    position: relative;
-
-    // left accent border:
-    &::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 8px;
-      bottom: 8px;
-      width: 4px;
-      background-color: $primary-accent;
-      border-radius: 2px;
-    }
+    border: 2px solid rgba(214, 111, 202, 0.2);
   }
 }
 
-// Icon inside link
+
 .linkIcon {
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   flex-shrink: 0;
-  color: inherit; // inherits text color; will change on hover/active
 }
 
-// Text inside link
 .linkText {
   font-size: 1rem;
   white-space: nowrap;
   flex-grow: 1;
 }
 
-// When collapsed, adjust link padding and hide text
+
+
+.spacer {
+  flex-grow: 1;
+}
+
 .collapsedLink {
   justify-content: center;
   padding: 12px 0;
@@ -119,16 +225,9 @@ $sidebar-width-collapsed: 60px;
   }
 }
 
-// Spacer pushes toggle to bottom
-.spacer {
-  flex-grow: 1;
-}
-
-// Toggle button at bottom
 .toggleBtn {
   background: none;
-  border: none;
-  color: $sidebar-text;
+  color: $text-color-black;
   padding: 12px;
   margin: 16px auto;
   border-radius: 50%;
@@ -141,10 +240,11 @@ $sidebar-width-collapsed: 60px;
 
   &:hover {
     background-color: $toggle-hover-bg;
+    border: 1px solid $primary-accent;
     color: $primary-accent;
   }
 
   svg {
-    font-size: 1rem;
+    font-size: 1.5rem;
   }
 }

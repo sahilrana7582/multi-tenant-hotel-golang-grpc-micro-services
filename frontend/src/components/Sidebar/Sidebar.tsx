@@ -1,51 +1,47 @@
-import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
-import {
-  FaHome,
-  FaBed,
-  FaBroom,
-  FaChartPie,
-  FaUsers,
-  FaCog,
-  FaChevronLeft,
-  FaChevronRight,
-} from 'react-icons/fa';
-import styles from './Sidebar.module.scss';
+import type React from "react";
+import { useState } from "react";
+import { BsFillHouseFill, BsPersonCircle, BsPersonVideo3 } from "react-icons/bs";
+import { MdDashboard, MdKitchen } from "react-icons/md";
+import { SiGooglemessages } from "react-icons/si";
+import styles from './Sidebar.module.scss'
+import { FaChevronLeft, FaChevronRight, FaHotel } from "react-icons/fa";
+import { NavLink } from "react-router-dom";
 
-interface NavItem {
+
+interface Navitem {
   to: string;
   label: string;
   Icon: React.ComponentType<{ className?: string }>;
 }
 
-const navItems: NavItem[] = [
-  { to: '/', label: 'Dashboard', Icon: FaHome },
-  { to: '/rooms', label: 'Rooms', Icon: FaBed },
-  { to: '/housekeeping', label: 'Housekeeping', Icon: FaBroom },
-  // Example additional items:
-  // { to: '/analytics', label: 'Analytics', Icon: FaChartPie },
-  // { to: '/users', label: 'Users', Icon: FaUsers },
-  // { to: '/settings', label: 'Settings', Icon: FaCog },
+
+const navItems: Navitem[] = [
+  { to: '/', label: 'Dashboard', Icon: MdDashboard },
+  { to: '/rooms', label: 'Rooms', Icon: BsFillHouseFill  },
+  { to: '/messages', label: 'Messages', Icon: SiGooglemessages  },
+  { to: '/housekeeping', label: 'Housekeeping', Icon: BsPersonCircle },
+  { to: '/kitchen', label: 'IRD Orders', Icon: MdKitchen },
+  { to: '/frontdesk', label: 'Frontdesk', Icon: BsPersonVideo3 },
 ];
 
-const Sidebar: React.FC = () => {
-  const [collapsed, setCollapsed] = useState(false);
 
+const Sidebar: React.FC = () => {
+  const [collapsed, setCollapsed] = useState<boolean>(false);
   const toggleSidebar = () => setCollapsed(prev => !prev);
 
+
   return (
-    <aside
-      className={`${styles.sidebar} ${collapsed ? styles.collapsed : ''}`}
-    >
+    <aside className={`${styles.sidebar} ${collapsed ? styles.collapsed : ''}`}>
+
       {/* Logo / Branding */}
       <div className={styles.logoSection}>
-        {/* You can swap in your own logo/icon here */}
-        <div className={styles.logoIcon}> {/* optional icon */}
-          {/* e.g. <YourLogoIcon /> */}
-          🏨
+        <div className={styles.logoIcon}>
+          <FaHotel/>
         </div>
-        {!collapsed && <span className={styles.logoText}>Lodgify</span>}
+
+        {!collapsed && <span className={styles.logoText}>ButlerAI</span>}
       </div>
+
 
       {/* Navigation Links */}
       <nav className={styles.nav}>
@@ -62,7 +58,6 @@ const Sidebar: React.FC = () => {
                 .filter(Boolean)
                 .join(' ')
             }
-            title={collapsed ? label : undefined} // show tooltip text when collapsed
           >
             <Icon className={styles.linkIcon} />
             {!collapsed && <span className={styles.linkText}>{label}</span>}
@@ -70,8 +65,11 @@ const Sidebar: React.FC = () => {
         ))}
       </nav>
 
-      {/* Spacer grows to push toggle to bottom */}
-      <div className={styles.spacer} />
+
+        {/* Spacer grows to push toggle to bottom */}
+        <div className={styles.spacer} />
+
+
 
       {/* Collapse / Expand Toggle */}
       <button
@@ -81,8 +79,10 @@ const Sidebar: React.FC = () => {
       >
         {collapsed ? <FaChevronRight /> : <FaChevronLeft />}
       </button>
+
     </aside>
-  );
-};
+  )
+}
+
 
 export default Sidebar;
