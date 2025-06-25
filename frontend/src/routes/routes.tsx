@@ -1,4 +1,5 @@
 import Layout from "../components/Layout/Layout";
+import Dashboard from "../features/Dashboard/DashboardPage";
 import Login from "../pages/login/Login";
 
 
@@ -14,7 +15,7 @@ const appRoutes = [
     path: '/',
     element: <Layout />,
     children: [
-      { path: '', element: <h1>LALA DASH</h1> },
+      { path: '', element: <Dashboard/>},
       { path: 'rooms', element: <h1>Rooms</h1> },
       { path: 'housekeeping', element: <h1>HK</h1> },
       { path: 'messages', element: <h1>messages</h1> },

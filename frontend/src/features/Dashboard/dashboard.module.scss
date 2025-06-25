@@ -1,0 +1,11 @@
+.dashboard {
+    padding: 24px;
+    background: linear-gradient(to bottom right, #f9f9f9, #ffffff);
+  }
+  
+  .statGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+  }
+  

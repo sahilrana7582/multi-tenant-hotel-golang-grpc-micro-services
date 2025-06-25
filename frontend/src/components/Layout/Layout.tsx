@@ -2,6 +2,7 @@ import React from 'react';
 import styles from './Layout.module.scss';
 import { Outlet } from 'react-router-dom';
 import Sidebar from '../Sidebar/Sidebar';
+import { Header } from '../Header/Header';
 
 const Layout: React.FC = () => {
   return (
@@ -9,9 +10,7 @@ const Layout: React.FC = () => {
         <Sidebar/>
 
       <div className={styles.mainArea}>
-        <div className={styles.header}>
-          <h2>Dashboard</h2>
-        </div>
+        <Header/>
         <main className={styles.content}>
           <Outlet />
         </main>

@@ -1,11 +1,12 @@
 import type React from "react";
 import { useState } from "react";
 import { BsFillHouseFill, BsPersonCircle, BsPersonVideo3 } from "react-icons/bs";
-import { MdDashboard, MdKitchen } from "react-icons/md";
+import { MdDashboard, MdFastfood } from "react-icons/md";
 import { SiGooglemessages } from "react-icons/si";
 import styles from './Sidebar.module.scss'
 import { FaChevronLeft, FaChevronRight, FaHotel } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
+import { FaListCheck } from "react-icons/fa6";
 
 
 interface Navitem {
@@ -20,8 +21,9 @@ const navItems: Navitem[] = [
   { to: '/rooms', label: 'Rooms', Icon: BsFillHouseFill  },
   { to: '/messages', label: 'Messages', Icon: SiGooglemessages  },
   { to: '/housekeeping', label: 'Housekeeping', Icon: BsPersonCircle },
-  { to: '/kitchen', label: 'IRD Orders', Icon: MdKitchen },
+  { to: '/kitchen', label: 'IRD Orders', Icon: MdFastfood },
   { to: '/frontdesk', label: 'Frontdesk', Icon: BsPersonVideo3 },
+  { to: '/login', label: 'Check In', Icon: FaListCheck },
 ];
 
 

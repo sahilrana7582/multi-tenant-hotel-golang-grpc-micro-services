@@ -1,0 +1,123 @@
+@import '../../styles/variables.scss';
+.card {
+    background-color: #ffffff;
+    padding: 16px;
+    border-radius: 12px;
+    border: 1px solid rgba(214, 111, 202, 0.1);
+    box-shadow: 0 1px 4px rgba(214, 111, 202, 0.2);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 180px;
+    flex: 1;
+    cursor: pointer;
+  
+    transition:
+      background-color 0.3s ease,
+      box-shadow 0.3s ease,
+      border-color 0.3s ease,
+      transform 0.2s ease;
+    
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(168, 138, 221, 0.15);
+    }
+}
+
+.topRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.title {
+    font-size: 1rem;
+    font-weight: 400;
+    color: rgba(rgb(86, 86, 86), 1);
+    margin-bottom: 4px;
+    transition: color 0.3s ease;
+}
+  
+  .title,
+  .icon,
+  .change,
+  .value {
+    transition: color 0.3s ease, background-color 0.3s ease;
+  }
+  
+  .icon {
+    font-size: 1.25rem;
+    color: #000000;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    background-color: #f3f0fb;
+  }
+  
+  .value {
+    font-size: 1.75rem;
+    font-weight: bold;
+    color: #111827;
+    transition: color 0.3s ease;
+  }
+  
+  .changeWrapper {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 4px;
+  }
+  
+  .change {
+    display: inline-block;
+    width: fit-content;
+    max-width: max-content;
+    white-space: nowrap;
+    padding: 2px 8px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    border-radius: 6px;
+    color: #22c55e;
+    background-color: rgba(34, 197, 94, 0.1);
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  .subText {
+    font-size: 0.75rem;
+    color: #888;
+    transition: color 0.3s ease;
+  }
+  
+  .positive {
+    color: #22c55e;
+    background-color: rgba(34, 197, 94, 0.1);
+  }
+  
+  .negative {
+    color: #ef4444;
+    background-color: rgba(239, 68, 68, 0.1);
+  }
+  
+  .active {
+    background-color: rgba($accent-color, 0.15);
+    border: 1px solid rgba($primary-color, 0.2);
+    box-shadow: 0 4px 12px rgba($primary-color, 0.15);
+  
+    & .icon {
+      background-color: rgb(251, 251, 251);
+      color: rgba($primary-color, 0.9);
+    }
+  
+    & .title {
+      color: rgba(0, 0, 0, 0.9);
+    }
+  
+    & .change {
+      background-color: rgb(251, 251, 251);
+    }
+  }
+  
