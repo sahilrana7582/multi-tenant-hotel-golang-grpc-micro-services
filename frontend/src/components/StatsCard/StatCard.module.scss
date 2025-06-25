@@ -11,6 +11,7 @@
     min-width: 180px;
     flex: 1;
     cursor: pointer;
+    animation: $fade-in 0.7s ease-in-out;
   
     transition:
       background-color 0.3s ease,
