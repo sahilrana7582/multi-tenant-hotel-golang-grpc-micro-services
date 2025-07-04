@@ -1,6 +1,7 @@
 import Layout from "../components/Layout/Layout";
 import Dashboard from "../features/Dashboard/DashboardPage";
 import Login from "../pages/login/Login";
+import Room from "../pages/room/Room";
 
 
 const appRoutes = [
@@ -16,7 +17,7 @@ const appRoutes = [
     element: <Layout />,
     children: [
       { path: '', element: <Dashboard/>},
-      { path: 'rooms', element: <h1>Rooms</h1> },
+      { path: 'rooms', element: <Room/> },
       { path: 'housekeeping', element: <h1>HK</h1> },
       { path: 'messages', element: <h1>messages</h1> },
       { path: 'kitchen', element: <h1>kitchen</h1> },

@@ -1,7 +1,7 @@
 // src/features/Dashboard/Dashboard.tsx
 import React, { useState } from "react";
 import StatCard from "../../components/StatsCard/StatCard";
-import { MdOutlineDateRange, MdLogin, MdLogout, MdAttachMoney } from "react-icons/md";
+import { MdOutlineDateRange, MdLogin, MdLogout, MdAttachMoney, MdOutlineChat } from "react-icons/md";
 import styles from "./Dashboard.module.scss";
 
 const Dashboard: React.FC = () => {
@@ -13,7 +13,7 @@ const Dashboard: React.FC = () => {
       <div className={styles.statGrid}>
             <StatCard
                 title="New Bookings"
-                value={840}
+                value={35}
                 change="+8.70%"
                 positive
                 icon={<MdOutlineDateRange />}
@@ -23,7 +23,7 @@ const Dashboard: React.FC = () => {
             
             <StatCard
                 title="Check-In"
-                value={231}
+                value={7}
                 change="+3.56%"
                 positive
                 icon={<MdLogin />}
@@ -33,7 +33,7 @@ const Dashboard: React.FC = () => {
             
             <StatCard
                 title="Check-Out"
-                value={231}
+                value={11}
                 change="-1.56%"
                 positive={false}
                 icon={<MdLogout />}
@@ -42,13 +42,13 @@ const Dashboard: React.FC = () => {
             />   
 
             <StatCard
-                title="Check-In"
-                value={231}
+                title="Total Chats"
+                value={31}
                 change="-0.56%"
                 positive={false}
-                icon={< MdAttachMoney />}
-                active={active === "revenue"}
-                onClick={() => setActive("revenue")}
+                icon={< MdOutlineChat />}
+                active={active === "chats"}
+                onClick={() => setActive("chats")}
             />
       </div>
     </div>

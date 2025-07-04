@@ -1,0 +1,26 @@
+@import '../../styles/variables';
+
+.card {
+  background-color: $card-bg-color;
+  border-radius: 12px;
+  padding: $padding-lg;
+  color: $text-color;
+  box-shadow: 0 2px 8px rgba($primary-color, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  h3 {
+    font-size: 1.2rem;
+    margin-bottom: $margin-xs;
+    color: $white;
+  }
+
+  p {
+    font-size: 0.9rem;
+    color: $muted-text-color;
+  }
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 14px rgba($primary-color, 0.4);
+  }
+}

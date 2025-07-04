@@ -1,0 +1,15 @@
+@import '../../styles/variables';
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: $spacing-lg;
+  animation: $fade-in 0.4s ease-in-out;
+}
+
+.empty {
+  color: $muted-text-color;
+  font-size: 1rem;
+  text-align: center;
+  margin-top: $margin-lg;
+}

@@ -104,7 +104,11 @@
   }
   
   .active {
-    background-color: rgba($accent-color, 0.15);
+    background: linear-gradient(
+            315deg,
+            rgba($accent-color, 0.2),
+            rgba($background-whitish-color, 0.3)
+            );
     border: 1px solid rgba($primary-color, 0.2);
     box-shadow: 0 4px 12px rgba($primary-color, 0.15);
   
