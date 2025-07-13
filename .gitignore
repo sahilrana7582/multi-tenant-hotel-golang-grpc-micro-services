@@ -12,3 +12,4 @@ backend/.env.*.local
 
 backend/services/**/.env
 backend/services/**/Makefile
+backend/**/Makefile

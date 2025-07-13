@@ -7,7 +7,8 @@ import (
 
 func RegisterRoutes(mux *http.ServeMux) {
 	routes := map[string]string{
-		"/api/": "http://localhost:8000",
+		"/api/tenants/": "http://localhost:8000",
+		"/api/users/":   "http://localhost:8001",
 	}
 
 	for prefix, host := range routes {

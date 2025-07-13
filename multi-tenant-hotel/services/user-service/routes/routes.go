@@ -6,10 +6,11 @@ import (
 	"time"
 
 	"github.com/go-chi/chi"
-	"github.com/sahilrana7582/hotel-mgmt/services/tenant-service/handler"
+	responsewriter "github.com/sahilrana7582/multi-tenant-hotel/pkg/response-writer"
+	"github.com/sahilrana7582/multi-tenant-hotel/user-service/handler"
 )
 
-func NewRouter(h *handler.TenantHandler) http.Handler {
+func NewRouter(h *handler.UserHandler) http.Handler {
 	r := chi.NewRouter()
 
 	r.NotFound(func(w http.ResponseWriter, r *http.Request) {
@@ -26,11 +27,10 @@ func NewRouter(h *handler.TenantHandler) http.Handler {
 	})
 
 	r.Route("/", func(r chi.Router) {
-		r.Post("/create", CustomHandler(h.CreateTenant))
-		r.Get("/", CustomHandler(h.ListTenants))
-		r.Get("/{id}", CustomHandler(h.GetTenant))
-		r.Put("/{id}", CustomHandler(h.UpdateTenant))
-		r.Delete("/{id}", CustomHandler(h.DeleteTenant))
+		r.Post("/create", responsewriter.CustomHandler(h.CreateUser))
+		// r.Get("/{id}", CustomHandler(h.GetUser))
+		// r.Put("/{id}", CustomHandler(h.UpdateUser))
+		// r.Delete("/{id}", CustomHandler(h.DeleteUser))
 	})
 
 	return r
