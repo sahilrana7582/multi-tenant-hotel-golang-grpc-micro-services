@@ -3,8 +3,11 @@ module github.com/sahilrana7582/hotel-mgmt/services/tenant-service
 go 1.23.3
 
 require (
+	github.com/go-chi/chi v1.5.5
+	github.com/google/uuid v1.6.0
 	github.com/jackc/pgx/v5 v5.7.5
 	github.com/joho/godotenv v1.5.1
+	github.com/sahilrana7582/multi-tenant-hotel v0.0.0
 )
 
 require (
@@ -15,3 +18,5 @@ require (
 	golang.org/x/sync v0.13.0 // indirect
 	golang.org/x/text v0.24.0 // indirect
 )
+
+replace github.com/sahilrana7582/multi-tenant-hotel => ../../

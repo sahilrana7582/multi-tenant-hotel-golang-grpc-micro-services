@@ -33,5 +33,7 @@ func NewPostgresPool(cfg *config.Config) (*pgxpool.Pool, error) {
 		return nil, fmt.Errorf("failed to ping database: %w", err)
 	}
 
+	fmt.Println("Connection Successfull")
+
 	return pool, nil
 }
