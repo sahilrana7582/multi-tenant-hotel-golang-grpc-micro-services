@@ -8,3 +8,4 @@ DROP FUNCTION IF EXISTS set_timestamp;
 DROP TABLE IF EXISTS tenants;
 
 
+

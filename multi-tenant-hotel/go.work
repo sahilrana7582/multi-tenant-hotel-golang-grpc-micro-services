@@ -3,6 +3,8 @@ go 1.23.3
 use (
 	./
 	./gateway
+	./pkg
+	./services/auth-service
 	./services/department-service
 	./services/tenant-service
 	./services/user-service
