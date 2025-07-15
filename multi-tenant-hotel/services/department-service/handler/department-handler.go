@@ -69,3 +69,35 @@ func (h *DepartmentHandler) GetAllDepartments(w http.ResponseWriter, r *http.Req
 	w.WriteHeader(http.StatusOK)
 	return json.NewEncoder(w).Encode(departments)
 }
+
+func (h *DepartmentHandler) UpdateDepartment(w http.ResponseWriter, r *http.Request) error {
+	var department models.Department
+	if err := json.NewDecoder(r.Body).Decode(&department); err != nil {
+		return errs.New("Invalid Request Body", err.Error(), http.StatusBadRequest)
+	}
+
+	err := h.departmentService.UpdateDepartment(r.Context(), &department)
+	if err != nil {
+		return err
+	}
+
+	w.WriteHeader(http.StatusOK)
+	return nil
+}
+
+func (h *DepartmentHandler) DeleteDepartment(w http.ResponseWriter, r *http.Request) error {
+	departmentID := chi.URLParam(r, "id")
+	if departmentID == "" {
+		return errs.New("Invalid Request Body", "Department ID is required", http.StatusBadRequest)
+	}
+	tenantID := chi.URLParam(r, "tenant_id")
+	if tenantID == "" {
+		return errs.New("Invalid Request Body", "Tenant ID is required", http.StatusBadRequest)
+	}
+	err := h.departmentService.DeleteDepartment(r.Context(), tenantID, departmentID)
+	if err != nil {
+		return err
+	}
+	w.WriteHeader(http.StatusOK)
+	return nil
+}

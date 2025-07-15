@@ -28,10 +28,10 @@ func NewRouter(h *handler.DepartmentHandler) http.Handler {
 
 	r.Route("/", func(r chi.Router) {
 		r.Post("/create", responsewriter.CustomHandler(h.CreateDepartment))
-		r.Get("/{id}/{tenant_id}", responsewriter.CustomHandler(h.GetDepartmentByID))
 		r.Get("/{tenant_id}", responsewriter.CustomHandler(h.GetAllDepartments))
-		// r.Put("/{id}", CustomHandler(h.UpdateUser))
-		// r.Delete("/{id}", CustomHandler(h.DeleteUser))
+		r.Get("/{id}/{tenant_id}", responsewriter.CustomHandler(h.GetDepartmentByID))
+		r.Delete("/{id}/{tenant_id}", responsewriter.CustomHandler(h.DeleteDepartment))
+		r.Put("/update", responsewriter.CustomHandler(h.UpdateDepartment))
 	})
 
 	return r
