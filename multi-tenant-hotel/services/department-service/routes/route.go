@@ -28,7 +28,8 @@ func NewRouter(h *handler.DepartmentHandler) http.Handler {
 
 	r.Route("/", func(r chi.Router) {
 		r.Post("/create", responsewriter.CustomHandler(h.CreateDepartment))
-		// r.Get("/{id}", CustomHandler(h.GetUser))
+		r.Get("/{id}/{tenant_id}", responsewriter.CustomHandler(h.GetDepartmentByID))
+		r.Get("/{tenant_id}", responsewriter.CustomHandler(h.GetAllDepartments))
 		// r.Put("/{id}", CustomHandler(h.UpdateUser))
 		// r.Delete("/{id}", CustomHandler(h.DeleteUser))
 	})

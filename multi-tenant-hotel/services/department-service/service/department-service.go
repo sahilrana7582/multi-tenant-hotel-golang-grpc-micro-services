@@ -9,8 +9,8 @@ import (
 
 type DepartmentService interface {
 	CreateDepartment(ctx context.Context, department *models.DepartmentNew) (*models.Department, error)
-	// GetDepartmentByID(ctx context.Context, departmentID string) (*models.Department, error)
-	// GetAllDepartments(ctx context.Context) ([]*models.Department, error)
+	GetDepartmentByID(ctx context.Context, tenantID, departmentID string) (*models.Department, error)
+	GetAllDepartments(ctx context.Context, tenantID string) ([]*models.Department, error)
 	// UpdateDepartment(ctx context.Context, department *models.Department) error
 	// DeleteDepartment(ctx context.Context, departmentID string) error
 }
@@ -27,4 +27,12 @@ func NewDepartmentService(repo repo.DepartmentRepo) DepartmentService {
 
 func (s *departmentService) CreateDepartment(ctx context.Context, department *models.DepartmentNew) (*models.Department, error) {
 	return s.repo.CreateDepartment(ctx, department)
+}
+
+func (s *departmentService) GetDepartmentByID(ctx context.Context, tenantID, departmentID string) (*models.Department, error) {
+	return s.repo.GetDepartmentByID(ctx, tenantID, departmentID)
+}
+
+func (s *departmentService) GetAllDepartments(ctx context.Context, tenantID string) ([]*models.Department, error) {
+	return s.repo.GetAllDepartments(ctx, tenantID)
 }
