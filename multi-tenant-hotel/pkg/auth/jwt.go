@@ -14,7 +14,7 @@ type CustomClaims struct {
 	jwt.Claims
 }
 
-func GenerateJWT(userID, tenantID, email string) (string, error) {
+func GenerateJWT(userID, tenantID string) (string, error) {
 	claims := CustomClaims{
 		UserID:   userID,
 		TenantID: tenantID,

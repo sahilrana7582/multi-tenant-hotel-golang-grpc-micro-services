@@ -10,6 +10,7 @@ func RegisterRoutes(mux *http.ServeMux) {
 		"/api/tenants/":    "http://localhost:8000",
 		"/api/users/":      "http://localhost:8001",
 		"/api/department/": "http://localhost:8002",
+		"/api/auth/":       "http://localhost:8004",
 	}
 
 	for prefix, host := range routes {
