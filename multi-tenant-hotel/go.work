@@ -2,7 +2,8 @@ go 1.23.3
 
 use (
 	./
+	./gateway
+	./services/department-service
 	./services/tenant-service
 	./services/user-service
-	./gateway
 )

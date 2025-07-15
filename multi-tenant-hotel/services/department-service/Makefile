@@ -1,13 +1,16 @@
 GO := go
 SERVICE_NAME := user-service
 MIGRATE := migrate
-MIGRATION_DIR := ./migrations
+MIGRATION_DIR := db/migrations
 DB_URL := postgres://postgres:1234@localhost:5432/multi-tenent-hotel?sslmode=disable
 
 
 
 .PHONY: run migrate-up migrate-down create-migration
 
+run:
+	@echo "🚀 Starting Tenant Service..."
+	cd cmd && go run main.go
 	
 create:
 ifndef name
@@ -31,10 +34,3 @@ ifndef v
 	$(error "Please provide a migration name: make create-migration name=add_table")
 endif
 	$(MIGRATE) -path $(MIGRATION_DIR) -database "$(DB_URL)" force ${v}
-
-
-
-
-
-
-# find . -type f -exec wc -l {} + | tail -n 1
