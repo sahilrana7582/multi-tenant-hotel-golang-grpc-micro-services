@@ -28,9 +28,10 @@ func NewRouter(h *handler.RoleHandler) http.Handler {
 
 	r.Route("/", func(r chi.Router) {
 		r.Post("/create", responsewriter.CustomHandler(h.CreateRole))
-		// r.Get("/{id}", CustomHandler(h.GetUser))
-		// r.Put("/{id}", CustomHandler(h.UpdateUser))
-		// r.Delete("/{id}", CustomHandler(h.DeleteUser))
+		r.Get("/{id}", responsewriter.CustomHandler(h.GetRoleByID))
+		r.Get("/", responsewriter.CustomHandler(h.GetAllRoles))
+		r.Put("/{id}", responsewriter.CustomHandler(h.UpdateRole))
+		r.Delete("/{id}", responsewriter.CustomHandler(h.DeleteRole))
 	})
 
 	return r
