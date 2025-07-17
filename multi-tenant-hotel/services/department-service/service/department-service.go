@@ -8,11 +8,11 @@ import (
 )
 
 type DepartmentService interface {
-	CreateDepartment(ctx context.Context, department *models.DepartmentNew) (*models.Department, error)
-	GetDepartmentByID(ctx context.Context, tenantID, departmentID string) (*models.Department, error)
-	GetAllDepartments(ctx context.Context, tenantID string) ([]*models.Department, error)
-	UpdateDepartment(ctx context.Context, department *models.Department) error
-	DeleteDepartment(ctx context.Context, tenantID, departmentID string) error
+	CreateDepartment(ctx context.Context, tenandID string, department *models.DepartmentNew) (*models.Department, error)
+	GetDepartmentByID(ctx context.Context, tenantID, userId, departmentID string) (*models.Department, error)
+	GetAllDepartments(ctx context.Context, tenantID, userID string) ([]*models.Department, error)
+	UpdateDepartment(ctx context.Context, tenantID, userID, departmentID string, department *models.DepartmentUpdate) error
+	DeleteDepartment(ctx context.Context, tenantID, userID, departmentID string) error
 }
 
 type departmentService struct {
@@ -25,22 +25,22 @@ func NewDepartmentService(repo repo.DepartmentRepo) DepartmentService {
 	}
 }
 
-func (s *departmentService) CreateDepartment(ctx context.Context, department *models.DepartmentNew) (*models.Department, error) {
-	return s.repo.CreateDepartment(ctx, department)
+func (s *departmentService) CreateDepartment(ctx context.Context, tenandID string, department *models.DepartmentNew) (*models.Department, error) {
+	return s.repo.CreateDepartment(ctx, tenandID, department)
 }
 
-func (s *departmentService) GetDepartmentByID(ctx context.Context, tenantID, departmentID string) (*models.Department, error) {
-	return s.repo.GetDepartmentByID(ctx, tenantID, departmentID)
+func (s *departmentService) GetDepartmentByID(ctx context.Context, tenantID, userID, departmentID string) (*models.Department, error) {
+	return s.repo.GetDepartmentByID(ctx, tenantID, userID, departmentID)
 }
 
-func (s *departmentService) GetAllDepartments(ctx context.Context, tenantID string) ([]*models.Department, error) {
-	return s.repo.GetAllDepartments(ctx, tenantID)
+func (s *departmentService) GetAllDepartments(ctx context.Context, tenantID, userID string) ([]*models.Department, error) {
+	return s.repo.GetAllDepartments(ctx, tenantID, userID)
 }
 
-func (s *departmentService) UpdateDepartment(ctx context.Context, department *models.Department) error {
-	return s.repo.UpdateDepartment(ctx, department)
+func (s *departmentService) UpdateDepartment(ctx context.Context, tenantID, userID, departmentID string, department *models.DepartmentUpdate) error {
+	return s.repo.UpdateDepartment(ctx, tenantID, userID, departmentID, department)
 }
 
-func (s *departmentService) DeleteDepartment(ctx context.Context, tenantID, departmentID string) error {
-	return s.repo.DeleteDepartment(ctx, tenantID, departmentID)
+func (s *departmentService) DeleteDepartment(ctx context.Context, tenantID, userID, departmentID string) error {
+	return s.repo.DeleteDepartment(ctx, tenantID, userID, departmentID)
 }
