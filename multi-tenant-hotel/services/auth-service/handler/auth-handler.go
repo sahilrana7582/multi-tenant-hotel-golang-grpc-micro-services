@@ -8,6 +8,7 @@ import (
 	"github.com/sahilrana7582/multi-tenant-hotel/auth-service/models"
 	"github.com/sahilrana7582/multi-tenant-hotel/auth-service/service"
 	"github.com/sahilrana7582/multi-tenant-hotel/pkg/errs"
+	responsewriter "github.com/sahilrana7582/multi-tenant-hotel/pkg/response-writer"
 )
 
 type AuthHandler struct {
@@ -51,12 +52,6 @@ func (h *AuthHandler) Login(w http.ResponseWriter, r *http.Request) error {
 		Message: "Login successful",
 	}
 
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
-	fmt.Println("3")
+	return responsewriter.WriteSuccess(w, http.StatusOK, "Login  successful", loginResp)
 
-	if err := json.NewEncoder(w).Encode(loginResp); err != nil {
-		return errs.ErrInternalServer
-	}
-	return nil
 }

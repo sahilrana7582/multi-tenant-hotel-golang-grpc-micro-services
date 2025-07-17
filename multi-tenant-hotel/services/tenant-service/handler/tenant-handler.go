@@ -10,6 +10,7 @@ import (
 	"github.com/sahilrana7582/hotel-mgmt/services/tenant-service/models"
 	"github.com/sahilrana7582/hotel-mgmt/services/tenant-service/service"
 	"github.com/sahilrana7582/multi-tenant-hotel/pkg/errs"
+	responsewriter "github.com/sahilrana7582/multi-tenant-hotel/pkg/response-writer"
 )
 
 type TenantHandler struct {
@@ -52,12 +53,8 @@ func (h *TenantHandler) GetTenant(w http.ResponseWriter, r *http.Request) error 
 	if err != nil {
 		return err
 	}
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
-	if err := json.NewEncoder(w).Encode(tenant); err != nil {
-		return errs.ErrInternalServer
-	}
-	return nil
+
+	return responsewriter.WriteSuccess(w, http.StatusOK, "Tenant retrieved successfully", tenant)
 }
 
 func (h *TenantHandler) ListTenants(w http.ResponseWriter, r *http.Request) error {
@@ -69,12 +66,7 @@ func (h *TenantHandler) ListTenants(w http.ResponseWriter, r *http.Request) erro
 		return err
 	}
 
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
-	if err := json.NewEncoder(w).Encode(tenants); err != nil {
-		return errs.ErrInternalServer
-	}
-	return nil
+	return responsewriter.WriteSuccess(w, http.StatusOK, "Tenants retrieved successfully", tenants)
 }
 
 func (h *TenantHandler) UpdateTenant(w http.ResponseWriter, r *http.Request) error {
@@ -89,12 +81,8 @@ func (h *TenantHandler) UpdateTenant(w http.ResponseWriter, r *http.Request) err
 	if err != nil {
 		return err
 	}
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
-	if err := json.NewEncoder(w).Encode(tenant); err != nil {
-		return errs.ErrInternalServer
-	}
-	return nil
+
+	return responsewriter.WriteSuccess(w, http.StatusOK, "Tenant updated successfully", tenant)
 }
 
 func (h *TenantHandler) DeleteTenant(w http.ResponseWriter, r *http.Request) error {
@@ -105,12 +93,6 @@ func (h *TenantHandler) DeleteTenant(w http.ResponseWriter, r *http.Request) err
 	if err != nil {
 		return err
 	}
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
-	if err := json.NewEncoder(w).Encode(map[string]interface{}{
-		"message": "Tenant deleted successfully",
-	}); err != nil {
-		return errs.ErrInternalServer
-	}
-	return nil
+
+	return responsewriter.WriteSuccess(w, http.StatusOK, "Tenant deleted successfully", nil)
 }

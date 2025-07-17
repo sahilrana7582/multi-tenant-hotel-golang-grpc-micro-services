@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/sahilrana7582/multi-tenant-hotel/pkg/errs"
+	responsewriter "github.com/sahilrana7582/multi-tenant-hotel/pkg/response-writer"
 	"github.com/sahilrana7582/multi-tenant-hotel/user-service/models"
 	"github.com/sahilrana7582/multi-tenant-hotel/user-service/service"
 )
@@ -29,11 +30,5 @@ func (h *UserHandler) CreateUser(w http.ResponseWriter, r *http.Request) error {
 		return err
 	}
 
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
-	if err := json.NewEncoder(w).Encode(createdUser); err != nil {
-		return errs.ErrInternalServer
-	}
-
-	return nil
+	return responsewriter.WriteSuccess(w, http.StatusCreated, "User created successfully", createdUser)
 }

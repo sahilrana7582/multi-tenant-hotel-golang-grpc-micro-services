@@ -8,6 +8,7 @@ import (
 	"github.com/sahilrana7582/multi-tenant-hotel/department-service/models"
 	"github.com/sahilrana7582/multi-tenant-hotel/department-service/service"
 	"github.com/sahilrana7582/multi-tenant-hotel/pkg/errs"
+	responsewriter "github.com/sahilrana7582/multi-tenant-hotel/pkg/response-writer"
 )
 
 type DepartmentHandler struct {
@@ -51,9 +52,8 @@ func (h *DepartmentHandler) GetDepartmentByID(w http.ResponseWriter, r *http.Req
 	if err != nil {
 		return err
 	}
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
-	return json.NewEncoder(w).Encode(department)
+
+	return responsewriter.WriteSuccess(w, http.StatusOK, "Department retrieved successfully", department)
 }
 
 func (h *DepartmentHandler) GetAllDepartments(w http.ResponseWriter, r *http.Request) error {
@@ -65,9 +65,8 @@ func (h *DepartmentHandler) GetAllDepartments(w http.ResponseWriter, r *http.Req
 	if err != nil {
 		return err
 	}
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
-	return json.NewEncoder(w).Encode(departments)
+
+	return responsewriter.WriteSuccess(w, http.StatusOK, "Departments retrieved successfully", departments)
 }
 
 func (h *DepartmentHandler) UpdateDepartment(w http.ResponseWriter, r *http.Request) error {
@@ -81,8 +80,8 @@ func (h *DepartmentHandler) UpdateDepartment(w http.ResponseWriter, r *http.Requ
 		return err
 	}
 
-	w.WriteHeader(http.StatusOK)
-	return nil
+	return responsewriter.WriteSuccess(w, http.StatusOK, "Department updated successfully", nil)
+
 }
 
 func (h *DepartmentHandler) DeleteDepartment(w http.ResponseWriter, r *http.Request) error {
@@ -98,6 +97,6 @@ func (h *DepartmentHandler) DeleteDepartment(w http.ResponseWriter, r *http.Requ
 	if err != nil {
 		return err
 	}
-	w.WriteHeader(http.StatusOK)
-	return nil
+
+	return responsewriter.WriteSuccess(w, http.StatusOK, "Department deleted successfully", nil)
 }
