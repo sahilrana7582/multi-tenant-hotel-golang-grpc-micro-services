@@ -41,3 +41,31 @@ func (h *PermissionHandler) GivePermissionToRole(w http.ResponseWriter, r *http.
 
 	return responsewriter.WriteSuccess(w, http.StatusCreated, "Permission Granted!", permission)
 }
+
+func (h *PermissionHandler) GetPermissionsByRole(w http.ResponseWriter, r *http.Request) error {
+	tenantID := auth.GetTenantID(r)
+	if tenantID == "" {
+		return errs.New("invalid tenant ID", "invalid tenant ID", http.StatusBadRequest)
+	}
+	roleID := r.URL.Query().Get("role_id")
+	if roleID == "" {
+		return errs.New("role_id is required", "role_id is required", http.StatusBadRequest)
+	}
+	permissions, err := h.permissionService.GetPermissionsByRole(tenantID, roleID)
+	if err != nil {
+		return err
+	}
+	return responsewriter.WriteSuccess(w, http.StatusOK, "Permissions Fetched Successfully!", permissions)
+}
+
+func (h *PermissionHandler) GetAllRolesPermissions(w http.ResponseWriter, r *http.Request) error {
+	tenantID := auth.GetTenantID(r)
+	if tenantID == "" {
+		return errs.New("invalid tenant ID", "invalid tenant ID", http.StatusBadRequest)
+	}
+	permissions, err := h.permissionService.GetAllRolesPermissions(tenantID)
+	if err != nil {
+		return err
+	}
+	return responsewriter.WriteSuccess(w, http.StatusOK, "Permissions Fetched Successfully!", permissions)
+}

@@ -10,6 +10,8 @@ import (
 
 type PermissionService interface {
 	GivePermissionToRole(tenantID string, newPermission *models.NewPermission) (*models.Permission, error)
+	GetPermissionsByRole(tenantID string, roleID string) (*models.PermissionByRole, error)
+	GetAllRolesPermissions(tenantID string) ([]*models.PermissionByRole, error)
 }
 
 type permissionService struct {
@@ -26,4 +28,16 @@ func (s *permissionService) GivePermissionToRole(tenantID string, newPermission 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 	return s.permissionRepo.GivePermissionToRole(ctx, tenantID, newPermission)
+}
+
+func (s *permissionService) GetPermissionsByRole(tenantID string, roleID string) (*models.PermissionByRole, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+	return s.permissionRepo.GetPermissionsByRole(ctx, tenantID, roleID)
+}
+
+func (s *permissionService) GetAllRolesPermissions(tenantID string) ([]*models.PermissionByRole, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+	return s.permissionRepo.GetAllRolesPermissions(ctx, tenantID)
 }

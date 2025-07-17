@@ -49,6 +49,8 @@ func NewRouter(db *pgxpool.Pool) http.Handler {
 
 	r.Route("/permission", func(r chi.Router) {
 		r.Post("/give", responsewriter.CustomHandler(permissionHandler.GivePermissionToRole))
+		r.Get("/role", responsewriter.CustomHandler(permissionHandler.GetPermissionsByRole))
+		r.Get("/all", responsewriter.CustomHandler(permissionHandler.GetAllRolesPermissions))
 	})
 
 	return r
