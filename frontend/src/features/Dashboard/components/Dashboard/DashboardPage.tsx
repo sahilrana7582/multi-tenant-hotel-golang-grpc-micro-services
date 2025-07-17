@@ -1,7 +1,7 @@
 // src/features/Dashboard/Dashboard.tsx
 import React, { useState } from "react";
-import StatCard from "../../components/StatsCard/StatCard";
-import { MdOutlineDateRange, MdLogin, MdLogout, MdAttachMoney, MdOutlineChat } from "react-icons/md";
+import StatCard from "../../../../components/StatsCard/StatCard";
+import { MdOutlineDateRange, MdLogin, MdLogout, MdOutlineChat } from "react-icons/md";
 import styles from "./Dashboard.module.scss";
 
 const Dashboard: React.FC = () => {

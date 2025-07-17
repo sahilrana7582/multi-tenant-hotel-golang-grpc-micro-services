@@ -28,14 +28,11 @@ func (h *AuthHandler) Login(w http.ResponseWriter, r *http.Request) error {
 		return errs.New("Invalid input", err.Error(), http.StatusBadRequest)
 	}
 
-	fmt.Println("1")
-
 	token, err := h.service.Login(loginReq.Email, loginReq.Password)
 	if err != nil {
 		return err
 	}
 
-	fmt.Println("2")
 	cookie := &http.Cookie{
 		Name:     "token",
 		Value:    token,

@@ -1,5 +1,5 @@
 import Layout from "../components/Layout/Layout";
-import Dashboard from "../features/Dashboard/DashboardPage";
+import Dashboard from "../features/Dashboard/components/Dashboard/DashboardPage";
 import Login from "../pages/login/Login";
 import Room from "../pages/room/Room";
 

@@ -6,6 +6,7 @@ use (
 	./pkg
 	./services/auth-service
 	./services/department-service
+	./services/role-service
 	./services/tenant-service
 	./services/user-service
 )

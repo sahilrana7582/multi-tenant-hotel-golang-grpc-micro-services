@@ -2,7 +2,8 @@
 // Primary Theme Colors (Purplish Twilight)
 $primary-color: #a88add;         // Soft Twilight Purple
 $secondary-color: #7266c6;       // Muted Mid Purple
-$accent-color: #c7a6f7;          // Light Lavender (for highlights)
+$accent-color: #c7a6f7;
+$error-color: red;         
 
 // Backgrounds
 $background-color: #1a142d;      // Deep purple-black
@@ -72,3 +73,15 @@ $fade-in: fadeIn;
 
 
 
+
+
+// Sidebar Specific
+$sidebar-bg: #ffffff;            
+$sidebar-text: #e9e6f9;          
+$sidebar-hover-bg: rgba(168, 138, 221, 0.1); 
+$sidebar-active-bg: rgba(168, 138, 221, 0.2); 
+$primary-accent: #a88add;        
+$toggle-hover-bg: rgba(168, 138, 221, 0.15);
+
+$sidebar-width-expanded: 240px;
+$sidebar-width-collapsed: 60px;

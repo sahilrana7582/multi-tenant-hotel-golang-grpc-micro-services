@@ -28,7 +28,7 @@ func (s *authService) Login(email, password string) (string, error) {
 		return "", err
 	}
 
-	token, err := auth.GenerateJWT(dbAuthResp.TenantId, dbAuthResp.UserId)
+	token, err := auth.GenerateJWT(dbAuthResp.UserId, dbAuthResp.TenantId)
 	if err != nil {
 		return "", err
 	}

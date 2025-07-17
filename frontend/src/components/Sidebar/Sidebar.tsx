@@ -7,6 +7,10 @@ import styles from './Sidebar.module.scss'
 import { FaChevronLeft, FaChevronRight, FaHotel } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 import { FaListCheck } from "react-icons/fa6";
+import Accordion from "../ui/Accordion/Accordion";
+import { useDepartments } from "../../features/Department/hooks/useDepartment";
+import { Loader } from "@mantine/core";
+// import { useAppSelector } from "../../store/hooks";
 
 
 interface Navitem {
@@ -32,6 +36,11 @@ const Sidebar: React.FC = () => {
   const toggleSidebar = () => setCollapsed(prev => !prev);
 
 
+  const {departments, error, loading} = useDepartments();
+
+
+
+
   return (
     <aside className={`${styles.sidebar} ${collapsed ? styles.collapsed : ''}`}>
 
@@ -45,8 +54,26 @@ const Sidebar: React.FC = () => {
       </div>
 
 
+
+
+
+
       {/* Navigation Links */}
       <nav className={styles.nav}>
+
+      {loading && <Loader size="sm" />}
+      
+      {!loading && !error && departments && departments.length > 0 && (
+        <Accordion
+          icon={<FaHotel />}
+          data={departments}
+          title="Departments"
+          width="100%"
+        />
+      )}
+
+      {error && <p className={styles.errorText}>Failed to load departments</p>}
+
         {navItems.map(({ to, label, Icon }) => (
           <NavLink
             to={to}
