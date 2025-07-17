@@ -2,6 +2,7 @@ package repo
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/sahilrana7582/multi-tenant-hotel/department-service/models"
@@ -43,12 +44,15 @@ func (r *departmentRepo) CreateDepartment(ctx context.Context, tenandID string, 
 
 func (r *departmentRepo) GetDepartmentByID(ctx context.Context, tenantID, userId, departmentID string) (*models.Department, error) {
 	query := `
-		SELECT d.id, d.tenant_id, d.name, d.description
-		FROM departments d
-		JOIN permissions p ON p.department_id = d.id
-		JOIN roles r ON r.id = p.role_id
-		JOIN public.user_roles ur ON ur.role_id = p.role_id
-		WHERE d.id = $1 AND d.tenant_id = $2 AND ur.user_id = $3
+			SELECT d.id, d.tenant_id, d.name, d.description
+			FROM departments d
+			JOIN permissions p ON (p.department_id = d.id OR p.department_id IS NULL)
+			JOIN roles r ON r.id = p.role_id
+			JOIN public.user_roles ur ON ur.role_id = p.role_id
+			WHERE d.id = $1 
+			AND d.tenant_id = $2 
+			AND ur.user_id = $3
+			AND (p.action IN ('*', 'view', 'update', 'create', 'delete'))
 	`
 	var department models.Department
 	err := r.db.QueryRow(ctx, query, departmentID, tenantID, userId).Scan(&department.ID, &department.TenantID, &department.Name, &department.Description)
@@ -62,10 +66,12 @@ func (r *departmentRepo) GetAllDepartments(ctx context.Context, tenantID, userID
 	query := `
 		SELECT d.id, d.tenant_id, d.name, d.description
 		FROM departments d
-		JOIN permissions p ON p.department_id = d.id
+		JOIN permissions p ON (p.department_id = d.id OR p.department_id IS NULL)
 		JOIN roles r ON r.id = p.role_id
 		JOIN public.user_roles ur ON ur.role_id = p.role_id
-		WHERE d.tenant_id = $1 AND ur.user_id = $2
+		WHERE d.tenant_id = $1 
+			AND ur.user_id = $2
+			AND (p.action IN ('*', 'view', 'update', 'create', 'delete'))
 	`
 	rows, err := r.db.Query(ctx, query, tenantID, userID)
 	if err != nil {
@@ -88,6 +94,7 @@ func (r *departmentRepo) GetAllDepartments(ctx context.Context, tenantID, userID
 }
 
 func (r *departmentRepo) UpdateDepartment(ctx context.Context, tenantID, userID, departmentID string, department *models.DepartmentUpdate) error {
+
 	query := `
 		UPDATE departments AS d
 		SET
@@ -99,14 +106,20 @@ func (r *departmentRepo) UpdateDepartment(ctx context.Context, tenantID, userID,
 		WHERE
 			d.id = $3
 			AND d.tenant_id = $4
-			AND p.department_id = d.id
+			AND (p.department_id = d.id OR p.department_id IS NULL)
 			AND ur.user_id = $5
+			AND (p.action IN ('*', 'update'))
 	`
 
-	_, err := r.db.Exec(ctx, query, department.Name, department.Description, departmentID, tenantID, userID)
+	cmdTag, err := r.db.Exec(ctx, query, department.Name, department.Description, departmentID, tenantID, userID)
 	if err != nil {
 		return err
 	}
+
+	if cmdTag.RowsAffected() == 0 {
+		return fmt.Errorf("unauthorized or department not found")
+	}
+
 	return nil
 }
 
@@ -119,12 +132,17 @@ func (r *departmentRepo) DeleteDepartment(ctx context.Context, tenantId, userId,
 		WHERE
 		d.id = $1
 		AND d.tenant_id = $2
-		AND p.department_id = d.id
+		AND (p.department_id = d.id OR p.department_id IS NULL)
 		AND ur.user_id = $3
+		AND (p.action IN ('*', 'delete'))
 	`
-	_, err := r.db.Exec(ctx, query, departmentID, tenantId, userId)
+	cmdTag, err := r.db.Exec(ctx, query, departmentID, tenantId, userId)
 	if err != nil {
 		return err
+	}
+
+	if cmdTag.RowsAffected() == 0 {
+		return fmt.Errorf("unauthorized or department not found")
 	}
 	return nil
 }

@@ -7,10 +7,7 @@ import (
 
 	"github.com/sahilrana7582/multi-tenant-hotel/role-service/config"
 	"github.com/sahilrana7582/multi-tenant-hotel/role-service/db"
-	"github.com/sahilrana7582/multi-tenant-hotel/role-service/handler"
-	"github.com/sahilrana7582/multi-tenant-hotel/role-service/repo"
 	"github.com/sahilrana7582/multi-tenant-hotel/role-service/routes"
-	"github.com/sahilrana7582/multi-tenant-hotel/role-service/service"
 )
 
 func main() {
@@ -23,10 +20,7 @@ func main() {
 	}
 	defer db.Close()
 
-	repo := repo.NewRoleRepo(db)
-	service := service.NewRoleService(repo)
-	hand := handler.NewRoleHandler(service)
-	r := routes.NewRouter(hand)
+	r := routes.NewRouter(db)
 
 	server := &http.Server{
 		Addr:         fmt.Sprintf(":%s", cfg.SERVER_PORT),

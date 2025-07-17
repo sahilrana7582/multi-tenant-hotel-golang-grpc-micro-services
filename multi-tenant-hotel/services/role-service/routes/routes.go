@@ -6,11 +6,14 @@ import (
 	"time"
 
 	"github.com/go-chi/chi"
+	"github.com/jackc/pgx/v5/pgxpool"
 	responsewriter "github.com/sahilrana7582/multi-tenant-hotel/pkg/response-writer"
 	"github.com/sahilrana7582/multi-tenant-hotel/role-service/handler"
+	"github.com/sahilrana7582/multi-tenant-hotel/role-service/repo"
+	"github.com/sahilrana7582/multi-tenant-hotel/role-service/service"
 )
 
-func NewRouter(h *handler.RoleHandler) http.Handler {
+func NewRouter(db *pgxpool.Pool) http.Handler {
 	r := chi.NewRouter()
 
 	r.NotFound(func(w http.ResponseWriter, r *http.Request) {
@@ -26,12 +29,26 @@ func NewRouter(h *handler.RoleHandler) http.Handler {
 		})
 	})
 
+	// Role routes
+	roleRepo := repo.NewRoleRepo(db)
+	roleService := service.NewRoleService(roleRepo)
+	h := handler.NewRoleHandler(roleService)
+
 	r.Route("/", func(r chi.Router) {
 		r.Post("/create", responsewriter.CustomHandler(h.CreateRole))
 		r.Get("/{id}", responsewriter.CustomHandler(h.GetRoleByID))
 		r.Get("/", responsewriter.CustomHandler(h.GetAllRoles))
 		r.Put("/{id}", responsewriter.CustomHandler(h.UpdateRole))
 		r.Delete("/{id}", responsewriter.CustomHandler(h.DeleteRole))
+	})
+
+	// Permission routes
+	permissionRepo := repo.NewPermissionRepo(db)
+	permissionService := service.NewPermissionService(permissionRepo)
+	permissionHandler := handler.NewPermissionHandler(permissionService)
+
+	r.Route("/permission", func(r chi.Router) {
+		r.Post("/give", responsewriter.CustomHandler(permissionHandler.GivePermissionToRole))
 	})
 
 	return r
