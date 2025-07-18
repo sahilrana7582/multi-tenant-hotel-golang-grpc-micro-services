@@ -24,3 +24,8 @@ type RoomType struct {
 	CreatedAt   time.Time `json:"created_at"`
 	UpdatedAt   time.Time `json:"updated_at"`
 }
+
+type RoomWithType struct {
+	Room
+	RoomType RoomType `json:"room_type"`
+}

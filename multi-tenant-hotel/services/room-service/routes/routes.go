@@ -37,8 +37,8 @@ func NewRouter(db *pgxpool.Pool) http.Handler {
 
 	r.Route("/", func(r chi.Router) {
 		r.Post("/create", responsewriter.CustomHandler(roomHandler.CreateRoom))
-		// r.Get("/{id}", responsewriter.CustomHandler(h.GetRoleByID))
-		// r.Get("/", responsewriter.CustomHandler(h.GetAllRoles))
+		r.Get("/{id}", responsewriter.CustomHandler(roomHandler.GetRoomByID))
+		r.Get("/", responsewriter.CustomHandler(roomHandler.GetAllRooms))
 		// r.Put("/{id}", responsewriter.CustomHandler(h.UpdateRole))
 		// r.Delete("/{id}", responsewriter.CustomHandler(h.DeleteRole))
 	})

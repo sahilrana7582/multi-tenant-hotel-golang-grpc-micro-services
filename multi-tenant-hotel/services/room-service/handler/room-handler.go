@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
+	"github.com/go-chi/chi"
 	"github.com/sahilrana7582/multi-tenant-hotel/pkg/errs"
 	responsewriter "github.com/sahilrana7582/multi-tenant-hotel/pkg/response-writer"
 	"github.com/sahilrana7582/multi-tenant-hotel/room-service/models"
@@ -43,4 +44,46 @@ func (h *RoomHandler) CreateRoom(w http.ResponseWriter, r *http.Request) error {
 	}
 
 	return responsewriter.WriteSuccess(w, http.StatusCreated, "Room created successfully", room)
+}
+
+func (h *RoomHandler) GetRoomByID(w http.ResponseWriter, r *http.Request) error {
+	tenantID := r.Header.Get("X-Tenant-ID")
+	if tenantID == "" {
+		return errs.New("Invalid Tenant ID", "Tenant ID is required", http.StatusBadRequest)
+	}
+
+	userID := r.Header.Get("X-User-ID")
+	if userID == "" {
+		return errs.New("Invalid User ID", "User ID is required", http.StatusBadRequest)
+	}
+
+	roomID := chi.URLParam(r, "id")
+	if roomID == "" {
+		return errs.New("Invalid Room ID", "Room ID is required", http.StatusBadRequest)
+	}
+
+	room, err := h.roomService.GetRoomByID(r.Context(), tenantID, userID, roomID)
+	if err != nil {
+		return err
+	}
+
+	return responsewriter.WriteSuccess(w, http.StatusOK, "Room fetched successfully", room)
+}
+
+func (h *RoomHandler) GetAllRooms(w http.ResponseWriter, r *http.Request) error {
+	tenantID := r.Header.Get("X-Tenant-ID")
+	if tenantID == "" {
+		return errs.New("Invalid Tenant ID", "Tenant ID is required", http.StatusBadRequest)
+	}
+	userID := r.Header.Get("X-User-ID")
+	if userID == "" {
+		return errs.New("Invalid User ID", "User ID is required", http.StatusBadRequest)
+	}
+
+	rooms, err := h.roomService.GetAllRooms(r.Context(), tenantID, userID)
+	if err != nil {
+		return err
+	}
+
+	return responsewriter.WriteSuccess(w, http.StatusOK, "Rooms fetched successfully", rooms)
 }
