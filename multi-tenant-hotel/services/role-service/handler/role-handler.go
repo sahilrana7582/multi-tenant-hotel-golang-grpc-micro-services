@@ -24,7 +24,6 @@ func NewRoleHandler(roleService service.RoleService) *RoleHandler {
 }
 
 func (h *RoleHandler) CreateRole(w http.ResponseWriter, r *http.Request) error {
-	fmt.Println("CreateRole called")
 	tenantID := auth.GetTenantID(r)
 	fmt.Println("Tenant ID:", tenantID)
 

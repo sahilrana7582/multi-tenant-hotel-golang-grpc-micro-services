@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
+	"github.com/go-chi/chi"
 	"github.com/sahilrana7582/multi-tenant-hotel/pkg/auth"
 	"github.com/sahilrana7582/multi-tenant-hotel/pkg/errs"
 	responsewriter "github.com/sahilrana7582/multi-tenant-hotel/pkg/response-writer"
@@ -68,4 +69,20 @@ func (h *PermissionHandler) GetAllRolesPermissions(w http.ResponseWriter, r *htt
 		return err
 	}
 	return responsewriter.WriteSuccess(w, http.StatusOK, "Permissions Fetched Successfully!", permissions)
+}
+
+func (h *PermissionHandler) RemovePermissionFromRole(w http.ResponseWriter, r *http.Request) error {
+	tenantID := auth.GetTenantID(r)
+	if tenantID == "" {
+		return errs.New("invalid tenant ID", "invalid tenant ID", http.StatusBadRequest)
+	}
+	permissionID := chi.URLParam(r, "id")
+	if permissionID == "" {
+		return errs.New("permission_id is required", "permission_id is required", http.StatusBadRequest)
+	}
+	err := h.permissionService.RemovePermissionFromRole(tenantID, permissionID)
+	if err != nil {
+		return err
+	}
+	return responsewriter.WriteSuccess(w, http.StatusOK, "Permission Removed Successfully!", nil)
 }

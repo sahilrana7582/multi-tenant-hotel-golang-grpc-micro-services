@@ -12,6 +12,7 @@ type PermissionService interface {
 	GivePermissionToRole(tenantID string, newPermission *models.NewPermission) (*models.Permission, error)
 	GetPermissionsByRole(tenantID string, roleID string) (*models.PermissionByRole, error)
 	GetAllRolesPermissions(tenantID string) ([]*models.PermissionByRole, error)
+	RemovePermissionFromRole(tenantID string, permissionID string) error
 }
 
 type permissionService struct {
@@ -40,4 +41,10 @@ func (s *permissionService) GetAllRolesPermissions(tenantID string) ([]*models.P
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 	return s.permissionRepo.GetAllRolesPermissions(ctx, tenantID)
+}
+
+func (s *permissionService) RemovePermissionFromRole(tenantID string, permissionID string) error {
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+	return s.permissionRepo.RemovePermissionFromRole(ctx, tenantID, permissionID)
 }

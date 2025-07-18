@@ -11,6 +11,7 @@ type PermissionRepo interface {
 	GivePermissionToRole(ctx context.Context, tenantID string, newPermission *models.NewPermission) (*models.Permission, error)
 	GetPermissionsByRole(ctx context.Context, tenantID string, roleID string) (*models.PermissionByRole, error)
 	GetAllRolesPermissions(ctx context.Context, tenantID string) ([]*models.PermissionByRole, error)
+	RemovePermissionFromRole(ctx context.Context, tenantID string, permissionID string) error
 }
 
 type permissionRepo struct {
@@ -142,5 +143,25 @@ func (r *permissionRepo) GetAllRolesPermissions(ctx context.Context, tenantID st
 	}
 
 	return permissionsByRole, nil
+
+}
+
+func (r *permissionRepo) RemovePermissionFromRole(
+	ctx context.Context,
+	tenantID string,
+	permissionID string,
+) error {
+	query := `
+		DELETE FROM permissions
+		WHERE id = $1 AND tenant_id = $2
+	`
+
+	_, err := r.db.Exec(ctx, query, permissionID, tenantID)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
 
 }

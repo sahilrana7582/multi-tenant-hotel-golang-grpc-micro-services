@@ -14,6 +14,7 @@ func RegisterRoutes(mux *http.ServeMux) {
 		"/api/auth/":       "http://localhost:8004",
 		"/api/role/":       "http://localhost:8005",
 		"/api/permission/": "http://localhost:8005",
+		"/api/rooms/":      "http://localhost:8006",
 	}
 
 	for prefix, host := range routes {
