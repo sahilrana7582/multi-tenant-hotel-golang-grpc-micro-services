@@ -3,6 +3,7 @@ package repo
 import (
 	"context"
 	"fmt"
+	"strings"
 
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
@@ -30,24 +31,35 @@ func (r *roomRepo) CreateRoom(ctx context.Context, tenantID, userID string, room
 	}
 	defer tx.Rollback(ctx)
 
-	_, err = tx.Exec(ctx, `SET LOCAL app.current_user_id = $1`, userID)
+	escapedUserID := strings.ReplaceAll(userID, "'", "''")
+	sql := fmt.Sprintf(`SET LOCAL app.current_user_id = '%s'`, escapedUserID)
+	_, err = tx.Exec(ctx, sql)
+
 	if err != nil {
 		return nil, fmt.Errorf("set current_user_id: %w", err)
 	}
 
 	query := `
-		INSERT INTO rooms (
-			tenant_id, department_id, room_type_id,
-			room_number, floor, price_per_night, 
-			status, is_active, description
-		) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
-		RETURNING id, tenant_id, department_id, 
-		room_type_id, room_number, floor, price_per_night,
-		status, is_active, description, created_at, updated_at
+	WITH permission_check AS (
+	  SELECT check_user_permission($1, $2) AS has_permission
+	)
+	INSERT INTO rooms (
+	  tenant_id, department_id, room_type_id,
+	  room_number, floor, price_per_night, 
+	  status, is_active, description
+	)
+	SELECT $3, $4, $5, $6, $7, $8, $9, $10, $11
+	FROM permission_check
+	WHERE has_permission = TRUE
+	RETURNING id, tenant_id, department_id, 
+	  room_type_id, room_number, floor, price_per_night,
+	  status, is_active, description, created_at, updated_at;
 	`
 
 	var newRoom models.Room
 	err = tx.QueryRow(ctx, query,
+		userID,
+		room.DepartmentID,
 		tenantID,
 		room.DepartmentID,
 		room.RoomID,
@@ -71,6 +83,7 @@ func (r *roomRepo) CreateRoom(ctx context.Context, tenantID, userID string, room
 		&newRoom.CreatedAt,
 		&newRoom.UpdatedAt,
 	)
+
 	if err != nil {
 		return nil, fmt.Errorf("insert room: %w", err)
 	}

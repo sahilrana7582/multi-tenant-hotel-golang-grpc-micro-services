@@ -30,26 +30,21 @@ CREATE TABLE rooms (
 
 
 
+CREATE OR REPLACE FUNCTION check_user_permission(p_user_id UUID, p_department_id UUID) 
+RETURNS BOOLEAN AS $$
+DECLARE
+  permission_exists BOOLEAN;
+BEGIN
+  SELECT EXISTS(
+    SELECT 1
+    FROM permissions p
+    JOIN roles r ON r.id = p.role_id
+    JOIN user_roles ur ON ur.role_id = r.id
+    WHERE ur.user_id = p_user_id
+      AND (p.department_id = p_department_id OR p.department_id IS NULL)
+      AND (p.action = 'create' OR p.action = '*')
+  ) INTO permission_exists;
 
-ALTER TABLE rooms ENABLE ROW LEVEL SECURITY;
-
-CREATE POLICY create_room_policy ON rooms
-  FOR INSERT
-  WITH CHECK (
-    EXISTS (
-      SELECT 1
-      FROM permissions p
-      JOIN roles r ON r.id = p.role_id
-      JOIN user_roles ur ON ur.role_id = r.id
-      WHERE
-        ur.user_id = current_setting('app.current_user_id')::UUID
-        AND (
-          p.department_id = rooms.department_id OR
-          p.department_id IS NULL
-        )
-        AND (
-          p.action = 'create' OR
-          p.action = '*'
-        )
-    )
-);
+  RETURN permission_exists;
+END;
+$$ LANGUAGE plpgsql;
