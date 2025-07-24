@@ -4,6 +4,7 @@ use (
 	./
 	./gateway
 	./pkg
+	./protos
 	./services/auth-service
 	./services/department-service
 	./services/role-service

@@ -19,7 +19,7 @@ func RegisterRoutes(mux *http.ServeMux) {
 
 	for prefix, host := range routes {
 
-		if prefix == "/api/auth/" {
+		if prefix == "/api/auth/" || prefix == "/api/tenants/" {
 			mux.Handle(prefix, http.StripPrefix(prefix, proxy.New(host)))
 
 			continue

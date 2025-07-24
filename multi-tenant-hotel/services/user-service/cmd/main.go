@@ -7,6 +7,7 @@ import (
 
 	"github.com/sahilrana7582/multi-tenant-hotel/user-service/config"
 	"github.com/sahilrana7582/multi-tenant-hotel/user-service/db"
+	grpcserver "github.com/sahilrana7582/multi-tenant-hotel/user-service/grpc"
 	"github.com/sahilrana7582/multi-tenant-hotel/user-service/handler"
 	"github.com/sahilrana7582/multi-tenant-hotel/user-service/repo"
 	"github.com/sahilrana7582/multi-tenant-hotel/user-service/routes"
@@ -27,6 +28,11 @@ func main() {
 	service := service.NewUserService(repo)
 	handler := handler.NewUserHandler(service)
 	r := routes.NewRouter(handler)
+
+	go func() {
+		fmt.Println("Running The Grpc Service")
+		grpcserver.StartGRPCServer(service, "50051")
+	}()
 
 	server := &http.Server{
 		Addr:         fmt.Sprintf(":%s", cfg.SERVER_PORT),

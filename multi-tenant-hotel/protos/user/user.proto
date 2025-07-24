@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package user;
+
+
+option go_package = "protos/user";
+
+
+service UserService {
+    rpc GenerateNewUser(CreateNewUser) returns (CreateNewUserResponse);
+}
+
+
+message CreateNewUser {
+    string tenant_id = 1;
+    string name = 2;
+    string email = 3;
+}
+
+message CreateNewUserResponse {
+    string id = 1;
+}
