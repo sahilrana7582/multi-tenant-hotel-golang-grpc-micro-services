@@ -7,6 +7,7 @@ import (
 
 	"github.com/sahilrana7582/hotel-mgmt/services/tenant-service/config"
 	"github.com/sahilrana7582/hotel-mgmt/services/tenant-service/db"
+	grpcclient "github.com/sahilrana7582/hotel-mgmt/services/tenant-service/grpc/client"
 	"github.com/sahilrana7582/hotel-mgmt/services/tenant-service/handler"
 	"github.com/sahilrana7582/hotel-mgmt/services/tenant-service/repo"
 	"github.com/sahilrana7582/hotel-mgmt/services/tenant-service/routes"
@@ -23,8 +24,13 @@ func main() {
 	}
 	defer pool.Close()
 
+	UserGrpcClient, err := grpcclient.NewUserGrpcClient("localhost:50051")
+
+	if err != nil {
+		panic("user grpc client is not up")
+	}
 	repo := repo.NewTenantRepo(pool)
-	svc := service.NewTenantService(repo)
+	svc := service.NewTenantService(repo, UserGrpcClient)
 	h := handler.NewTenantHandler(*svc)
 
 	r := routes.NewRouter(h)
