@@ -41,6 +41,9 @@ func NewUserRoutes(db *pgxpool.Pool) http.Handler {
 		// r.Get("/", responsewriter.CustomHandler(roomHandler.GetAllRooms))
 		// r.Put("/{id}", responsewriter.CustomHandler(h.UpdateRole))
 		// r.Delete("/{id}", responsewriter.CustomHandler(h.DeleteRole))
+
+		//Location
+		r.Post("/create-location", responsewriter.CustomHandler(hotetlHanlder.CreatNewLocation))
 	})
 
 	return r

@@ -40,3 +40,19 @@ func (h *HotelHandler) CreateHotelInfo(w http.ResponseWriter, r *http.Request) e
 
 	return responsewriter.WriteSuccess(w, http.StatusCreated, "Room created successfully", createdHotel)
 }
+
+func (h *HotelHandler) CreatNewLocation(w http.ResponseWriter, r *http.Request) error {
+	var newLocation models.NewHotelLocation
+
+	if err := json.NewDecoder(r.Body).Decode(&newLocation); err != nil {
+		return errs.New("BAD REQUEST", "Request body is not valid", http.StatusBadRequest)
+	}
+	defer r.Body.Close()
+
+	creatHotelLocation, err := h.service.RegisterHotelAddress(r.Context(), &newLocation)
+	if err != nil {
+		return err
+	}
+
+	return responsewriter.WriteSuccess(w, http.StatusCreated, "Location Created Successfully", creatHotelLocation)
+}

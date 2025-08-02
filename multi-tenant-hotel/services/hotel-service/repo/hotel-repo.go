@@ -3,13 +3,19 @@ package repo
 import (
 	"context"
 	"fmt"
+	"net/http"
 
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/sahilrana7582/multi-tenant-hotel/hotel-service/models"
+	"github.com/sahilrana7582/multi-tenant-hotel/pkg/errs"
 )
 
 type HotelRepo interface {
+	// Hotel General Info
 	CreateHotelInfo(context.Context, *models.NewHotelInfo) (*models.HotelInfo, error)
+
+	// Hotel Locations
+	CreateLocation(context.Context, *models.NewHotelLocation) (*models.HotelLocationResp, error)
 }
 
 type HotelRepository struct {
@@ -51,4 +57,21 @@ func (r *HotelRepository) CreateHotelInfo(ctx context.Context, newHotelInfo *mod
 	}
 
 	return &hotelInfo, nil
+}
+
+func (r *HotelRepository) CreateLocation(ctx context.Context, newLoc *models.NewHotelLocation) (*models.HotelLocationResp, error) {
+	query := `
+		INSERT INTO hotel_locations (hotel_id, address, city, state, country, zip_code, latitude, longitude )
+		VALUES ($1, $2, $3, $4, $5, $6, $7, $8);
+	`
+
+	_, err := r.db.Exec(ctx, query, newLoc.HotelID, newLoc.Address, newLoc.City, newLoc.State, newLoc.Country, newLoc.ZipCode, newLoc.Latitude, newLoc.Longitude)
+
+	if err != nil {
+		return nil, errs.New("DB Error", "Something went wrong!"+err.Error(), http.StatusInternalServerError)
+	}
+
+	return &models.HotelLocationResp{
+		Message: "Location created successfully",
+	}, nil
 }
