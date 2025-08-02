@@ -9,6 +9,7 @@ import (
 
 type AuthRepo interface {
 	Login(email string) (models.DBAuthResp, error)
+	
 }
 
 type authRepo struct {
