@@ -43,7 +43,11 @@ func NewUserRoutes(db *pgxpool.Pool) http.Handler {
 		// r.Delete("/{id}", responsewriter.CustomHandler(h.DeleteRole))
 
 		//Location
-		r.Post("/create-location", responsewriter.CustomHandler(hotetlHanlder.CreatNewLocation))
+		r.Route("/location", func(r chi.Router) {
+			r.Post("/create", responsewriter.CustomHandler(hotetlHanlder.CreatNewLocation))
+			r.Get("/", responsewriter.CustomHandler(hotetlHanlder.GetHotelLocation))
+		})
+
 	})
 
 	return r

@@ -56,3 +56,21 @@ func (h *HotelHandler) CreatNewLocation(w http.ResponseWriter, r *http.Request) 
 
 	return responsewriter.WriteSuccess(w, http.StatusCreated, "Location Created Successfully", creatHotelLocation)
 }
+
+func (h *HotelHandler) GetHotelLocation(w http.ResponseWriter, r *http.Request) error {
+	hotelID := r.URL.Query().Get("hotel_id")
+	if hotelID == "" {
+		return errs.New("BAD REQUEST", "hotel_id query param is required", http.StatusBadRequest)
+	}
+
+	location, err := h.service.GetHotelAddress(r.Context(), hotelID)
+	if err != nil {
+		return err
+	}
+
+	if location == nil {
+		return errs.New("NOT FOUND", "No location found for the given hotel_id", http.StatusNotFound)
+	}
+
+	return responsewriter.WriteSuccess(w, http.StatusOK, "Hotel location fetched successfully", location)
+}

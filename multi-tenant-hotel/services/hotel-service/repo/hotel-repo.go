@@ -2,6 +2,7 @@ package repo
 
 import (
 	"context"
+	"database/sql"
 	"fmt"
 	"net/http"
 
@@ -16,6 +17,7 @@ type HotelRepo interface {
 
 	// Hotel Locations
 	CreateLocation(context.Context, *models.NewHotelLocation) (*models.HotelLocationResp, error)
+	GetLocation(context.Context, string) (*models.NewHotelLocation, error)
 }
 
 type HotelRepository struct {
@@ -74,4 +76,34 @@ func (r *HotelRepository) CreateLocation(ctx context.Context, newLoc *models.New
 	return &models.HotelLocationResp{
 		Message: "Location created successfully",
 	}, nil
+}
+
+func (r *HotelRepository) GetLocation(ctx context.Context, hotelId string) (*models.NewHotelLocation, error) {
+	query := `
+		SELECT hotel_id, address, city, state, country, zip_code, latitude, longitude 
+		FROM hotel_locations
+		WHERE hotel_id = $1;
+	`
+
+	var newLoc models.NewHotelLocation
+
+	err := r.db.QueryRow(ctx, query, hotelId).Scan(
+		&newLoc.HotelID,
+		&newLoc.Address,
+		&newLoc.City,
+		&newLoc.State,
+		&newLoc.Country,
+		&newLoc.ZipCode,
+		&newLoc.Latitude,
+		&newLoc.Longitude,
+	)
+
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return nil, nil
+		}
+		return nil, err
+	}
+
+	return &newLoc, nil
 }

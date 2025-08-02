@@ -10,6 +10,7 @@ import (
 type IHotelService interface {
 	RegisterHotelInfo(ctx context.Context, newHotelInfo *models.NewHotelInfo) (*models.HotelInfo, error)
 	RegisterHotelAddress(ctx context.Context, newLocation *models.NewHotelLocation) (*models.HotelLocationResp, error)
+	GetHotelAddress(ctx context.Context, hotelID string) (*models.NewHotelLocation, error)
 }
 
 type HotelService struct {
@@ -28,4 +29,8 @@ func (s *HotelService) RegisterHotelInfo(ctx context.Context, newHotelInfo *mode
 
 func (s *HotelService) RegisterHotelAddress(ctx context.Context, newLocation *models.NewHotelLocation) (*models.HotelLocationResp, error) {
 	return s.repo.CreateLocation(ctx, newLocation)
+}
+
+func (s *HotelService) GetHotelAddress(ctx context.Context, hotelID string) (*models.NewHotelLocation, error) {
+	return s.repo.GetLocation(ctx, hotelID)
 }
